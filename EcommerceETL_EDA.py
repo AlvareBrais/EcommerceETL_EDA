@@ -7,7 +7,7 @@ Proyecto data analytics//data scientist
 @author: Brais
 
 
-Se nos da un data set con informacion de 3 años sobre un Ecommerce de joyeria, nos piden analisis exploratorio. (DEA)
+Se nos da un data set con informacion de 3 años sobre un Ecommerce de joyeria, nos piden analisis exploratorio. (EDA)
 """
 #Importamos los modulos necesarios
 import pandas as pd #Para el procesado de datos, archivos csv en este caso

@@ -12,7 +12,7 @@ Se nos da un data set con informacion de 3 años sobre un Ecommerce de joyeria, 
 #Importamos los modulos necesarios
 import pandas as pd #Para el procesado de datos, archivos csv en este caso
 import numpy as np #algebra linear
-
+import matplotlib.pyplot as plt
 archivo_csv = "jewelry.csv"
 
 df = pd.read_csv(archivo_csv)
@@ -40,10 +40,10 @@ print(df.columns)
 
 
 #He visto algo que no esta muy bien en estos datos, vamos a arreglarlo.
-
+#ETL
 #Fase de procesamiento de datos.
 #Los nombres de las columnas no son nada intuitivos, los vamos a cambiar.
-
+print("Renombramos las columnas por motivos de legibilidad")
 # Renombrar y reordenar las columnas
 df = df.rename(columns={
     '2018-12-01 11:40:29 UTC': 'Order_Datetime',
@@ -67,22 +67,40 @@ df = df[column_order]
 
 print("\nComprobamos los cambios en las columnas")
 print(df.columns)
-
+#La columna quantity no es relevante asi que la vamos a eliminar
+df = df.drop('Quantity', axis=1)
 #Ya se puede leer mas facil este dataset, sigamos.
 
 
 print(df.info)
+print()
+print(df.describe())
+
+
+print("\nCon estas simple obersvacion vemos como el precio medio de los productos"
+      "\nes de 258,77$ y el minimo es de 0.99 $")
 
 print("\nBuscamos valores nulos:")
 print()
 
 print(df.isna().sum())
 
-#Obsero que hay un numero de nulos no muy relevante en las columnas Category_Id y Category_alias.
+print("\nObsero que hay un numero de nulos no muy relevante en las columnas Category_Id y Category_alias.")
+print("\nProcedemos a eliminarlos, ya que no afectaran a la estadistica descriptiva.")
 #A nivel practica vamos a eliminarlos, ya que no afectaran a la estadisticas globales pero si nos pueden dar problemas
+#Con los modelos ML que haremos a continuación
+
+df = df.dropna(subset=['Category_ID', 'Category_Alias', 'Brand_ID', 'Main_Metal'])
 
 
+print("\nComprobamos")
 
+print(df.isna().sum())
+
+#Borramos filas en las que el USDPrice and UserID sea nulo
+new_df = df[df['Price_USD'].notna() & df['User_ID'].notna()]
+
+print(new_df.info())
 
 
 
